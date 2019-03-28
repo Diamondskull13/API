@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+    
+    <style>
+    button {
+  background-color: #4CAF50; /* Green */
+  border: none;
+  color: white;
+  padding: 15px 32px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+}
+    </style>
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+</head>
+<body>
+<p>Click the button to get your coordinates.</p>
+
+<button onclick="getLocation()">Try It</button>
+
+<p id="location"></p>
+<p id="threewords"></p>
+
+<script>
+var x = document.getElementById("location");
+var y = document.getElementById("threewords");
+
+function getLocation() {
+  if (navigator.geolocation) {
+    navigator.geolocation.getCurrentPosition(showPosition);
+  } else { 
+    x.innerHTML = "Geolocation is not supported by this browser.";
+  }
+}
+
+function showPosition(position) {
+  
+
+  
+   var settings = {
+  "async": true,
+  "crossDomain": true,
+  "url": "https://api.what3words.com/v3/convert-to-3wa?key=TYYUID29&coordinates=" + position.coords.latitude + ","+position.coords.longitude +"&language=en&format=json",
+  "method": "GET",
+  "headers": {}
+  }
+
+   
+  x.innerHTML = "Latitude: " + position.coords.latitude + 
+  "<br>Longitude: " + position.coords.longitude;
+  
+  $.ajax(settings).done(function (response) {
+
+  y.innerHTML =  response.words;
+
+});
+}
+  
+  
+ 
+
+</script>
+    
+</body>
+</html>
